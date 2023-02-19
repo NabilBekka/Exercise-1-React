@@ -10,7 +10,7 @@ class ControlVedict extends React.Component {
 
     handleChange(event){
         const id= event.currentTarget.id
-        let valeur= parseInt(event.currentTarget.value)
+        let valeur= parseFloat(event.currentTarget.value)
         this.setState(
             (state,props)=>{
                 if (id==="Celsius"){
@@ -22,17 +22,17 @@ class ControlVedict extends React.Component {
                     }
                     return {
                         Celsius : valeur,
-                        Fahrenheit : valeur + 32
+                        Fahrenheit : valeur*(9/5) + 32
                     }
                 }else{
                     if (isNaN(valeur)){
                         return {
-                            Celsius : -32,
+                            Celsius : (-32)*(5/9),
                             Fahrenheit : 0
                         }
                     }
                     return {
-                        Celsius : valeur - 32,
+                        Celsius : (valeur - 32)*(5/9),
                         Fahrenheit : valeur
                     }
                 }
@@ -43,14 +43,14 @@ class ControlVedict extends React.Component {
     
     render(){
         return (
-            <div className="Container">
+            <div className="container mt-4">
                 <div className="form-group">
-                    <label htmlFor="formGroupCelsiusInput">Enter temperature in Celsius:</label>
-                    <input type="text" className="form-control" placeholder="Celsius input" onChange={this.handleChange} value={this.state.Celsius} id="Celsius"></input>
+                    <label htmlFor="Celsius">Enter temperature in Celsius:</label>
+                    <input type="text" className="form-control" onChange={this.handleChange} value={this.state.Celsius} id="Celsius"></input>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="formGroupFahrenheitInput">Enter temperature in Fahrenheit:</label>
-                    <input type="text" className="form-control" placeholder="Fahrenheit input" onChange={this.handleChange} value={this.state.Fahrenheit} id="Fahrenheit"></input>
+                    <label htmlFor="Fahrenheit">Enter temperature in Fahrenheit:</label>
+                    <input type="text" className="form-control" onChange={this.handleChange} value={this.state.Fahrenheit} id="Fahrenheit"></input>
                 </div>
                 <BoilingVedict celsius={this.state.Celsius}/>
             </div>
@@ -58,8 +58,8 @@ class ControlVedict extends React.Component {
     }
 }
 
-function BoilingVedict(props){
-    return props.celsius <100 ? <div className="alert alert-primary" role="alert">The water not boil</div> : <div className="alert alert-danger" role="alert">The water boil</div>
+function BoilingVedict({celsius}){
+    return celsius <100 ? <div className="alert alert-info" role="alert">The water not boil</div> : <div className="alert alert-danger" role="alert">The water boil</div>
 }
 
 ReactDOM.render(<ControlVedict/>,document.getElementById('app'))
