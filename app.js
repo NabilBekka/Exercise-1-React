@@ -86,7 +86,6 @@ function BoilingVedict({celsius}){
     } else{
         return(<div className="alert alert-danger" role="alert">The water boil</div>)
     }
-    //return celsius <100 ? <div className="alert alert-info" role="alert">The water not boil</div> : <div className="alert alert-danger" role="alert">The water boil</div>
 }
 
 ReactDOM.render(<ControlVedict/>,document.getElementById('app'))
