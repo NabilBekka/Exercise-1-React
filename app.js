@@ -2,22 +2,28 @@ class ControlVedict extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            Celsius : 0,
-            Fahrenheit : 32
+            Celsius : 20,
+            Fahrenheit : 20*(9/5) + 32
         }
         this.handleChange= this.handleChange.bind(this)
     }
 
     handleChange(event){
         const id= event.currentTarget.id
-        let valeur= parseFloat(event.currentTarget.value)
+        let valeur= event.currentTarget.value
         this.setState(
-            (state,props)=>{
+            ()=>{
                 if (id==="Celsius"){
+                    if(valeur===''){
+                        return {
+                            Celsius:'',
+                            Fahrenheit:''
+                        }
+                    }
                     if (isNaN(valeur)){
                         return {
-                            Celsius : 0,
-                            Fahrenheit : 32
+                            Celsius : valeur,
+                            Fahrenheit : 'Impossible conversion'
                         }
                     }
                     return {
@@ -25,10 +31,16 @@ class ControlVedict extends React.Component {
                         Fahrenheit : valeur*(9/5) + 32
                     }
                 }else{
+                    if(valeur===''){
+                        return {
+                            Celsius:'',
+                            Fahrenheit:''
+                        }
+                    }
                     if (isNaN(valeur)){
                         return {
-                            Celsius : (-32)*(5/9),
-                            Fahrenheit : 0
+                            Celsius : 'impossible conversion',
+                            Fahrenheit : valeur
                         }
                     }
                     return {
@@ -44,22 +56,34 @@ class ControlVedict extends React.Component {
     render(){
         return (
             <div className="container mt-4">
-                <div className="form-group">
-                    <label htmlFor="Celsius">Enter temperature in Celsius:</label>
-                    <input type="text" className="form-control" onChange={this.handleChange} value={this.state.Celsius} id="Celsius"></input>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="Fahrenheit">Enter temperature in Fahrenheit:</label>
-                    <input type="text" className="form-control" onChange={this.handleChange} value={this.state.Fahrenheit} id="Fahrenheit"></input>
-                </div>
+                <h1>Checking the water condition : </h1>
+                <TemperatureInput id="Celsius" onChange={this.handleChange} value={this.state.Celsius}/>
+                <TemperatureInput id="Fahrenheit" onChange={this.handleChange} value={this.state.Fahrenheit}/>
                 <BoilingVedict celsius={this.state.Celsius}/>
             </div>
         )
     }
 }
 
+function TemperatureInput({id,onChange,value}){
+    return(
+        <div className="form-group">
+            <label htmlFor={id}>Enter temperature in {id}:</label>
+            <input type="text" className="form-control" onChange={onChange} value={value} id={id}></input>
+        </div>
+    )
+}
+
 function BoilingVedict({celsius}){
-    return celsius <100 ? <div className="alert alert-info" role="alert">The water not boil</div> : <div className="alert alert-danger" role="alert">The water boil</div>
+    if (celsius===''||isNaN(celsius)){
+        return (<div className="alert alert-danger" role="alert">No result</div>)
+    }
+    if (celsius<100){
+        return (<div className="alert alert-info" role="alert">The water not boil</div>)
+    } else{
+        return(<div className="alert alert-success" role="alert">The water boil</div>)
+    }
+    //return celsius <100 ? <div className="alert alert-info" role="alert">The water not boil</div> : <div className="alert alert-danger" role="alert">The water boil</div>
 }
 
 ReactDOM.render(<ControlVedict/>,document.getElementById('app'))
