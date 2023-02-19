@@ -39,9 +39,6 @@ class ControlVedict extends React.Component {
             }
            
         )
-        console.log(this.state.Celsius)
-        
-
     }
     
     render(){
