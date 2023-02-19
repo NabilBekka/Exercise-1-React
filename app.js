@@ -76,12 +76,15 @@ function TemperatureInput({id,onChange,value}){
 
 function BoilingVedict({celsius}){
     if (celsius===''||isNaN(celsius)){
-        return (<div className="alert alert-danger" role="alert">No result</div>)
+        return (<div className="alert alert-warning" role="alert">No result</div>)
+    }
+    if(celsius<=0){
+        return (<div className="alert alert-info" role="alert">The water freezes</div>)
     }
     if (celsius<100){
-        return (<div className="alert alert-info" role="alert">The water not boil</div>)
+        return (<div className="alert alert-success" role="alert">The water not boil</div>)
     } else{
-        return(<div className="alert alert-success" role="alert">The water boil</div>)
+        return(<div className="alert alert-danger" role="alert">The water boil</div>)
     }
     //return celsius <100 ? <div className="alert alert-info" role="alert">The water not boil</div> : <div className="alert alert-danger" role="alert">The water boil</div>
 }
